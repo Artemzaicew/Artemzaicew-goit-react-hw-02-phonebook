@@ -1,30 +1,39 @@
 import { Component } from "react";
 import ContactsForm from "ContactsForm/ContactsForm";
+import Filter from "./Filter/Filter";
+import { nanoid } from "nanoid";
+import ContactList from "./ContactList/ContactList";
 
 export class App extends Component {
 
   state = {
     contacts: [],
-   
+    filter: '',
   };
 
-  createContact =(data)=>{
-    console.log(data)
+  handleSubmitApp = newContact => {
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, newContact],
+    }));
+  };
+
+  createContact =(contact)=>{
+    const newContact={
+      ...contact,
+      id:nanoid()
+    };
+    console.log(newContact)
   }
 
   render() {
     return (
-      // <div
-      //   style={{
-      //     height: '100vh',
-      //     display: 'flex',
-      //     justifyContent: 'center',
-      //     alignItems: 'center',
-      //     fontSize: 40,
-      //     color: '#010101'
-      //   }}
-      // ></div>
-      <ContactsForm createContact={this.createContact}/>
+      <div>
+        <h1>Phonebook</h1>
+        <ContactsForm  createContact={this.createContact}
+        onSubmit={this.handleSubmitApp}/>
+        <Filter/>
+        <ContactList/>
+      </div>
     );
   }
 };
